@@ -1,5 +1,5 @@
 <template>
-  <div class="answer" @click="setBackground" :style="{background: activeColor}">
+  <div class="answer" @click="setBackground" :style="{'border-left-color': activeColor}">
     {{text}}, {{correct}}
   </div>
 </template>
@@ -15,10 +15,10 @@ export default {
   methods: {
     setBackground: function() {
       if(this.correct) {
-        this.activeColor = '#00ff00';
+        this.activeColor = '#55ff55';
       }
       else {
-        this.activeColor = '#ff0000';
+        this.activeColor = '#ff3333';
       }
     }
   },
@@ -50,5 +50,8 @@ export default {
   font-size: 1em;
   font-family: 'Raleway', Arial, sans-serif;
   box-sizing: border-box;
+  border-left: 25px solid;
+  border-left-color: blue;
+  transition: all 1.5s ease-in-out;
 }
 </style>
