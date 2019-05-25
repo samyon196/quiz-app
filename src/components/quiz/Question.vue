@@ -1,27 +1,28 @@
 <template>
-  <div id="app">
-    <Quiz></Quiz>
+  <div id="question">
+    {{text}}
   </div>
 </template>
 
 <script>
-import Quiz from './components/quiz/Quiz.vue'
-
 export default {
-  name: 'app',
-  components: {
-    Quiz
+  name: 'Question',
+  props: {
+      text : String
   }
 }
 </script>
 
 <style>
-#app {
+#question {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
+  background-color: #ffff00;
+  width: 50%;
+  margin: auto auto;
 }
 </style>
