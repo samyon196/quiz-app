@@ -1,7 +1,8 @@
 <template>
   <div id="quiz">
     <b>Welcome to the Samyon&Lior Quiz system! :)</b> <br /><br /><br />
-    Question <b>#{{currentQuestion+1}}/{{num_questions}}</b>
+    Question <b>#{{currentQuestion+1}}/{{num_questions}}</b><br />
+    <progress :value="currentQuestion+1" :max="num_questions"></progress><br /><br />
     <Question :text="questionsFile.questions[currentQuestion].question"></Question>
     <Answer :text="questionsFile.questions[currentQuestion].answers[0]" correct></Answer>
     <Answer :text="questionsFile.questions[currentQuestion].answers[1]" ></Answer>
@@ -54,6 +55,16 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-
 }
+
+progress, progress[role] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  border: none;
+  background-size: auto;
+  height: 10px;
+  width: 50%;
+}
+
 </style>
