@@ -1,15 +1,22 @@
 <template>
   <div id="quiz">
-    <b>Welcome to the Samyon&Lior Quiz system! :)</b> <br /><br /><br />
+    <img src="../../assets/test.png" alt="Test icon" style="width:128px;height:128px;"><br />
+    
     Question <b>#{{currentQuestion+1}}/{{num_questions}}</b><br />
     <progress :value="currentQuestion+1" :max="num_questions"></progress><br /><br />
-    <Question :text="questionsFile.questions[currentQuestion].question"></Question>
-    <Answer :text="questionsFile.questions[currentQuestion].answers[0]" correct></Answer>
-    <Answer :text="questionsFile.questions[currentQuestion].answers[1]" ></Answer>
-    <Answer :text="questionsFile.questions[currentQuestion].answers[2]" ></Answer>
-    <Answer :text="questionsFile.questions[currentQuestion].answers[3]" ></Answer>
-    <Answer :text="questionsFile.questions[currentQuestion].answers[4]" ></Answer>
+
+    <Question :text="questionsFile.questions[questionIdxArray[currentQuestion]].question"></Question>
+    <div v-if="renderAns">
+      <div v-for="i in ansIdxArray" :key="i">
+        <Answer v-if="i == 0" :text="ansArr[i]" correct></Answer>
+        <Answer v-else :text="ansArr[i]" reset></Answer>
+      </div>
+    </div>
     <button @click="nextQuestion">Next Question</button>
+
+    <footer >
+      Samyon&Lior 2019 Quiz system.
+    </footer> 
   </div>
 </template>
 
@@ -24,22 +31,46 @@ export default {
     return {
       questionsFile: QFile,
       currentQuestion:0,
+      questionIdxArray: [],
+      ansIdxArray: [],
+      renderAns: true
     }
+  },
+  mounted: function() {
+    // Setup array for questionMix:
+    this.questionIdxArray = this.shuffle([...Array(this.num_questions).keys()]);
+    this.ansIdxArray = this.shuffle([...Array(5).keys()]);
   },
   methods: {
     nextQuestion: function() {
       if(this.currentQuestion+1 < this.num_questions) {
         this.currentQuestion++;
+        this.ansIdxArray = this.shuffle([...Array(5).keys()]);
       }
       else {
         alert('Test finished!');
       }
+      this.renderAns = false;
+      this.$nextTick(() => {
+        this.renderAns = true;
+      });
+    },
+    shuffle: function(a) {
+      for (let i = a.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
     }
   },
   computed: {
     num_questions: function () {
         return this.questionsFile.questions.length;
+    },
+    ansArr: function() {
+      return this.questionsFile.questions[this.questionIdxArray[this.currentQuestion]].answers;
     }
+
   },
   components: {
     Question,
@@ -48,23 +79,65 @@ export default {
 }
 </script>
 
-<style>
-#quiz {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<style scoped>
+  #quiz {
+    font-family: 'Avenir', Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    border: none;
+    background-color: #fff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+    border-left: 10px solid rgb(151, 68, 228);
+    transition: all 0.5s ease;
+    padding: 15px 15px 0px 15px;
+    color: rgb(133, 133, 133);
+    background-color: #f8f8f8;
+  }
+  progress, progress[role] {
+    transition: all 0.5s ease;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border: none;
+    background-size: auto;
+    height: 10px;
+    width: 100%;
+    background-color: #d3d3d3;
+  }
+  progress::-moz-progress-bar {
+    background: rgb(151, 68, 228);
 
-progress, progress[role] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  border: none;
-  background-size: auto;
-  height: 10px;
-  width: 50%;
-}
-
+  }
+  progress::-webkit-progress-bar {
+      background: transparent;
+  }  
+  progress::-webkit-progress-value {  
+    background: rgb(151, 68, 228);
+  } 
+  button {
+	background-color: #8800ff; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+	box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+font-weight: 200;
+    margin-top: 15px;
+  }
+  footer {
+    font-size: 0.6em;
+    margin-top: 15px;
+    text-align: left;
+  }
 </style>

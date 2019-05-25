@@ -1,20 +1,37 @@
 <template>
-  <div class="answer">
-    {{text}}
+  <div class="answer" @click="setBackground" :style="{background: activeColor}">
+    {{text}}, {{correct}}
   </div>
 </template>
 
 <script>
 export default {
   name: 'Answer',
+  data: function() {
+    return {
+      activeColor: '#f8f8f8'
+    }
+  },
+  methods: {
+    setBackground: function() {
+      if(this.correct) {
+        this.activeColor = '#00ff00';
+      }
+      else {
+        this.activeColor = '#ff0000';
+      }
+    }
+  },
   props: {
       text : String,
-      isCorrect: Boolean
+      correct: Boolean,
+      reset: Boolean
   }
 }
 </script>
 
-<style>
+<style scoped>
+@import url(http://fonts.googleapis.com/css?family=Raleway:400,500,700);
 .answer {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -22,8 +39,16 @@ export default {
   text-align: center;
   color: #2c3e50;
   margin-top: 60px;
-  background-color: #05ff00;
-  width: 50%;
-  margin: auto auto;
+  background-color: #ffffff;
+  width: 85%;
+  margin: 5px auto;
+  padding: 5px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  background-color: #f8f8f8;
+  color: #74777b;
+  font-weight: regular;
+  font-size: 1em;
+  font-family: 'Raleway', Arial, sans-serif;
+  box-sizing: border-box;
 }
 </style>
