@@ -1,10 +1,10 @@
 <template>
     <div>
         <div v-if="isAnswered">
-            <strike>Question <b>{{currentQuestion+1}}/{{num_questions}}</b></strike> <span style="font-size: 0.7em">(Question {{realIndex+1}})</span>
+            <strike>Question <b>{{currentQuestion+1}}/{{num_questions}}</b></strike> <span style="font-size: 0.7em">(Q. {{realIndex+1}})</span>
         </div>
         <div v-else>
-            Question <b>{{currentQuestion+1}}/{{num_questions}}</b> <span style="font-size: 0.7em">(Question {{realIndex+1}})</span>
+            Question <b>{{currentQuestion+1}}/{{num_questions}}</b> <span style="font-size: 0.7em">(Q. {{realIndex+1}})</span>
         </div>
         <progress :value="currentQuestion+1" :max="num_questions"></progress><br />
         <progress :value="correctNum" :max="correctNum+incorrectNum" id='correct'></progress><br />
