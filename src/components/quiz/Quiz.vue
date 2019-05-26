@@ -10,7 +10,7 @@
     <progress :value="currentQuestion+1" :max="num_questions"></progress><br />
     <progress :value="correctNum" :max="correctNum+incorrectNum" id='correct'>test</progress><br />
 
-    <div>Correct: <b>{{correctNum}}</b>, Incorrect: <b>{{incorrectNum}}</b></div>
+    <div>Correct: <b>{{correctNum}}</b>, Incorrect: <b>{{incorrectNum}} [{{correctPrec}}%]</b></div>
     <Question :text="questionsFile.questions[questionIdxArray[currentQuestion]].question"></Question>
     <div v-if="renderAns">
         <div v-for="i in ansIdxArray" :key="i">
@@ -107,6 +107,13 @@ export default {
     },
     ansArr: function() {
       return this.questionsFile.questions[this.questionIdxArray[this.currentQuestion]].answers;
+    },
+    correctPrec: function() {
+      var c = (100*this.correctNum/(this.correctNum+this.incorrectNum));
+      if(isNaN(c)) {
+        c = (0);
+      }
+      return Math.ceil(c);
     }
 
   },
