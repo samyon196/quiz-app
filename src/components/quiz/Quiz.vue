@@ -1,29 +1,22 @@
 <template>
   <div id="quiz">
     <img src="../../assets/test.png" alt="Test icon" style="width:128px;height:128px;"><br />
-    <p v-if="isAnswered[currentQuestion]">
-      <strike>Question <b>#{{currentQuestion+1}}/{{num_questions}}</b><br /></strike>
-    </p>
-    <p v-else>
-      Question <b>#{{currentQuestion+1}}/{{num_questions}}</b><br />
-    </p>
+    <div v-if="isAnswered[currentQuestion]">
+      <strike>Question <b>#{{currentQuestion+1}}/{{num_questions}}</b></strike>
+    </div>
+    <div v-else>
+      Question <b>#{{currentQuestion+1}}/{{num_questions}}</b>
+    </div>
     <progress :value="currentQuestion+1" :max="num_questions"></progress><br />
-    <progress :value="correctNum" :max="correctNum+incorrectNum" id='correct'>test</progress><br /><br />
-    Correct: <b>{{correctNum}}</b>, Incorrect: <b>{{incorrectNum}}</b>
+    <progress :value="correctNum" :max="correctNum+incorrectNum" id='correct'>test</progress><br />
+
+    <div>Correct: <b>{{correctNum}}</b>, Incorrect: <b>{{incorrectNum}}</b></div>
     <Question :text="questionsFile.questions[questionIdxArray[currentQuestion]].question"></Question>
     <div v-if="renderAns">
-      <div v-if="isAnswered[currentQuestion]">
         <div v-for="i in ansIdxArray" :key="i">
-          <Answer @selected="setAnswered" v-if="i == 0" :text="ansArr[i]" correct reveal></Answer>
-          <Answer @selected="setAnswered" v-else :text="ansArr[i]" reveal></Answer>
+          <Answer @selected="setAnswered" v-if="i == 0" :text="ansArr[i]" correct :reveal="currReveal || isAnswered[currentQuestion]"></Answer>
+          <Answer @selected="setAnswered" v-else :text="ansArr[i]" :reveal="currReveal || isAnswered[currentQuestion]"></Answer>
         </div>
-      </div>
-      <div v-else>
-        <div v-for="i in ansIdxArray" :key="i">
-          <Answer @selected="setAnswered" v-if="i == 0" :text="ansArr[i]" correct></Answer>
-          <Answer @selected="setAnswered" v-else :text="ansArr[i]"></Answer>
-        </div>
-      </div>
     </div>
     <button @click="prevQuestion">Prev Question</button>
     <button @click="nextQuestion">Next Question</button>
@@ -50,6 +43,7 @@ export default {
       questionIdxArray: [],
       ansIdxArray: [],
       renderAns: true,
+      currReveal: false
     }
   },
   mounted: function() {
@@ -60,17 +54,16 @@ export default {
   },
   methods: {
     setAnswered: function(isCorrect) {
-      //alert('test xxx');
       if(!this.isAnswered[this.currentQuestion]) {
         this.isAnswered[this.currentQuestion] = true;
         if(isCorrect) {
           this.correctNum++;
+          this.currReveal = true;
         }
         else {
           this.incorrectNum++;
         }
       }
-
     },
     prevQuestion: function() {
       if(this.currentQuestion-1 >= 0) {
@@ -80,6 +73,7 @@ export default {
       else {
         return;
       }
+      this.currReveal = false;
       this.renderAns = false;
       this.$nextTick(() => {
         this.renderAns = true;
@@ -93,6 +87,7 @@ export default {
       else {
         alert('Test finished!');
       }
+      this.currReveal = false;
       this.renderAns = false;
       this.$nextTick(() => {
         this.renderAns = true;
@@ -140,6 +135,7 @@ export default {
     padding: 15px 15px 0px 15px;
     color: rgb(133, 133, 133);
     background-color: #f8f8f8;
+    height: 100%;
   }
   progress, progress[role] {
     transition: all 0.5s ease;
@@ -152,6 +148,7 @@ export default {
     height: 10px;
     width: 100%;
     background-color: #d3d3d3;
+    margin: 3px;
   }
   progress::-moz-progress-bar {
     background: rgb(151, 68, 228);
@@ -173,18 +170,18 @@ export default {
     background-color: green;
   }
   button {
-	background-color: #8800ff; /* Green */
+    background-color: #8800ff; /* Green */
     border: none;
     color: white;
-    padding: 15px 32px;
+    padding: 15px 10px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     margin: 4px 2px;
     cursor: pointer;
-	box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
-font-weight: 200;
+    box-shadow: 0 3px 5px 0 rgba(0, 0, 0, 0.5);
+    font-weight: 200;
     margin-top: 15px;
   }
   footer {
