@@ -12,6 +12,11 @@ export default {
       activeColor: '#f8f8f8'
     }
   },
+  mounted: function() {
+    if(this.reveal) {
+      this.setBackground();
+    }
+  },
   methods: {
     setBackground: function() {
       if(this.correct) {
@@ -26,7 +31,8 @@ export default {
   props: {
       text : String,
       correct: Boolean,
-      reset: Boolean
+      reset: Boolean,
+      reveal: Boolean
   }
 }
 </script>

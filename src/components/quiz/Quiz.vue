@@ -1,19 +1,28 @@
 <template>
   <div id="quiz">
     <img src="../../assets/test.png" alt="Test icon" style="width:128px;height:128px;"><br />
-    
-    Question <b>#{{currentQuestion+1}}/{{num_questions}}</b><br />
     <p v-if="isAnswered[currentQuestion]">
-      question answered!!
-      </p>
+      <strike>Question <b>#{{currentQuestion+1}}/{{num_questions}}</b><br /></strike>
+    </p>
+    <p v-else>
+      Question <b>#{{currentQuestion+1}}/{{num_questions}}</b><br />
+    </p>
     <progress :value="currentQuestion+1" :max="num_questions"></progress><br />
     <progress :value="correctNum" :max="correctNum+incorrectNum" id='correct'>test</progress><br /><br />
     Correct: <b>{{correctNum}}</b>, Incorrect: <b>{{incorrectNum}}</b>
     <Question :text="questionsFile.questions[questionIdxArray[currentQuestion]].question"></Question>
     <div v-if="renderAns">
-      <div v-for="i in ansIdxArray" :key="i">
-        <Answer @selected="setAnswered" v-if="i == 0" :text="ansArr[i]" correct></Answer>
-        <Answer @selected="setAnswered" v-else :text="ansArr[i]" reset></Answer>
+      <div v-if="isAnswered[currentQuestion]">
+        <div v-for="i in ansIdxArray" :key="i">
+          <Answer @selected="setAnswered" v-if="i == 0" :text="ansArr[i]" correct reveal></Answer>
+          <Answer @selected="setAnswered" v-else :text="ansArr[i]" reveal></Answer>
+        </div>
+      </div>
+      <div v-else>
+        <div v-for="i in ansIdxArray" :key="i">
+          <Answer @selected="setAnswered" v-if="i == 0" :text="ansArr[i]" correct></Answer>
+          <Answer @selected="setAnswered" v-else :text="ansArr[i]"></Answer>
+        </div>
       </div>
     </div>
     <button @click="prevQuestion">Prev Question</button>
