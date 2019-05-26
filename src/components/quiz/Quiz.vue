@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import QFile from '../../assets/questions.json';
+import QFile from '../../assets/questionsReady.json';
 import Question from './Question.vue'
 import Answer from './Answer.vue'
 import Progress from './Progress.vue'
