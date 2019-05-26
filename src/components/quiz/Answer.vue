@@ -20,6 +20,7 @@ export default {
       else {
         this.activeColor = '#ff3333';
       }
+      this.$emit('selected', this.correct);
     }
   },
   props: {

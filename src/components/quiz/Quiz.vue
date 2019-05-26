@@ -3,17 +3,18 @@
     <img src="../../assets/test.png" alt="Test icon" style="width:128px;height:128px;"><br />
     
     Question <b>#{{currentQuestion+1}}/{{num_questions}}</b><br />
-    <progress :value="currentQuestion+1" :max="num_questions"></progress><br /><br />
+    <progress :value="currentQuestion+1" :max="num_questions"></progress><br />
+    <progress :value="correctNum" :max="correctNum+incorrectNum" id='correct'>test</progress><br /><br />
 
     <Question :text="questionsFile.questions[questionIdxArray[currentQuestion]].question"></Question>
     <div v-if="renderAns">
       <div v-for="i in ansIdxArray" :key="i">
-        <Answer v-if="i == 0" :text="ansArr[i]" correct></Answer>
-        <Answer v-else :text="ansArr[i]" reset></Answer>
+        <Answer @selected="setAnswered" v-if="i == 0" :text="ansArr[i]" correct></Answer>
+        <Answer @selected="setAnswered" v-else :text="ansArr[i]" reset></Answer>
       </div>
     </div>
+    <button @click="prevQuestion">Prev Question</button>
     <button @click="nextQuestion">Next Question</button>
-
     <footer >
       Samyon&Lior 2019 Quiz system.
     </footer> 
@@ -31,6 +32,9 @@ export default {
     return {
       questionsFile: QFile,
       currentQuestion:0,
+      correctNum: 0,
+      incorrectNum: 0,
+      isAnswered: [],
       questionIdxArray: [],
       ansIdxArray: [],
       renderAns: true
@@ -40,8 +44,35 @@ export default {
     // Setup array for questionMix:
     this.questionIdxArray = this.shuffle([...Array(this.num_questions).keys()]);
     this.ansIdxArray = this.shuffle([...Array(5).keys()]);
+    this.isAnswered = new Array(this.num_questions).fill(false);
   },
   methods: {
+    setAnswered: function(isCorrect) {
+      //alert('test xxx');
+      if(!this.isAnswered[this.currentQuestion]) {
+        this.isAnswered[this.currentQuestion] = true;
+        if(isCorrect) {
+          this.correctNum++;
+        }
+        else {
+          this.incorrectNum++;
+        }
+      }
+
+    },
+    prevQuestion: function() {
+      if(this.currentQuestion-1 >= 0) {
+        this.currentQuestion--;
+        this.ansIdxArray = this.shuffle([...Array(5).keys()]);
+      }
+      else {
+        return;
+      }
+      this.renderAns = false;
+      this.$nextTick(() => {
+        this.renderAns = true;
+      });
+    },
     nextQuestion: function() {
       if(this.currentQuestion+1 < this.num_questions) {
         this.currentQuestion++;
@@ -119,7 +150,16 @@ export default {
   }  
   progress::-webkit-progress-value {  
     background: rgb(151, 68, 228);
-  } 
+  }
+  #correct, #correct[role] {
+    background-color: #990e0e;
+  }
+  #correct::-moz-progress-bar {
+    background-color: green;
+  }
+  #correct::-webkit-progress-value {
+    background-color: green;
+  }
   button {
 	background-color: #8800ff; /* Green */
     border: none;
