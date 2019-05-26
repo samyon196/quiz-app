@@ -3,9 +3,12 @@
     <img src="../../assets/test.png" alt="Test icon" style="width:128px;height:128px;"><br />
     
     Question <b>#{{currentQuestion+1}}/{{num_questions}}</b><br />
+    <p v-if="isAnswered[currentQuestion]">
+      question answered!!
+      </p>
     <progress :value="currentQuestion+1" :max="num_questions"></progress><br />
     <progress :value="correctNum" :max="correctNum+incorrectNum" id='correct'>test</progress><br /><br />
-
+    Correct: <b>{{correctNum}}</b>, Incorrect: <b>{{incorrectNum}}</b>
     <Question :text="questionsFile.questions[questionIdxArray[currentQuestion]].question"></Question>
     <div v-if="renderAns">
       <div v-for="i in ansIdxArray" :key="i">
@@ -37,7 +40,7 @@ export default {
       isAnswered: [],
       questionIdxArray: [],
       ansIdxArray: [],
-      renderAns: true
+      renderAns: true,
     }
   },
   mounted: function() {
