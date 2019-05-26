@@ -12,7 +12,7 @@
     <button @click="prevQuestion">Prev Question</button>
     <button @click="nextQuestion">Next Question</button>
     <footer >
-      Samyon&Lior 2019 Quiz system.
+      Ⓒ Quiz system, May 2019, By Lior&Samyon.
     </footer> 
   </div>
 </template>

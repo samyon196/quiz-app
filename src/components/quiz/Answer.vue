@@ -59,6 +59,6 @@ export default {
   box-sizing: border-box;
   border-left: 25px solid;
   border-left-color: blue;
-  transition: all 1.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }
 </style>
