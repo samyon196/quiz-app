@@ -20,10 +20,10 @@ export default {
   methods: {
     setBackground: function() {
       if(this.correct) {
-        this.activeColor = '#55ff55';
+        this.activeColor = '#008000';
       }
       else {
-        this.activeColor = '#ff3333';
+        this.activeColor = '#990e0e';
       }
       this.$emit('selected', this.correct);
     }
