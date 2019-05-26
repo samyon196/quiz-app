@@ -2,10 +2,10 @@
   <div id="quiz">
     <img src="../../assets/test.png" alt="Test icon" style="width:128px;height:128px;"><br />
     <div v-if="isAnswered[currentQuestion]">
-      <strike>Question <b>#{{currentQuestion+1}}/{{num_questions}}</b></strike>
+      <strike>Question <b>#{{currentQuestion+1}}/{{num_questions}}</b></strike> <span style="font-size: 0.7em">(Question {{questionIdxArray[currentQuestion]+1}})</span>
     </div>
     <div v-else>
-      Question <b>#{{currentQuestion+1}}/{{num_questions}}</b>
+      Question <b>#{{currentQuestion+1}}/{{num_questions}}</b> <span style="font-size: 0.7em">(Question {{questionIdxArray[currentQuestion]+1}})</span>
     </div>
     <progress :value="currentQuestion+1" :max="num_questions"></progress><br />
     <progress :value="correctNum" :max="correctNum+incorrectNum" id='correct'>test</progress><br />
