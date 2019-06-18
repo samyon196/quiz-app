@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import Quiz from './components/quiz/Quiz.vue'
+import Quiz from './components/quiz/Quiz.vue' TEST ADD
 
 export default {
   name: 'app',
